@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package ua.gov.diia.addressservice;
+
+service AddressService {
+
+  rpc getActualAtuId (GetActualAtuIdRequest) returns (GetActualAtuIdResponse) {}
+
+  rpc getPostOffice (GetPostOfficeRequest) returns (GetPostOfficeResponse) {}
+  
+  rpc getPublicServiceAddress (GetPublicServiceAddressRequest) returns (GetPublicServiceAddressResponse) {}
+}
+
+message GetPostOfficeRequest {
+    string addressId = 1;
+    string postOfficeId = 2;
+    optional string publicServiceCode = 3;
+}
+
+message GetPostOfficeResponse {
+    string id = 1;
+    string name = 2;
+    string postcode = 3;    
+}
+
+message GetActualAtuIdRequest {
+    int32 atuId = 1;
+    optional DrrpRequestOptions ops = 2;
+}
+
+message GetActualAtuIdResponse {
+    int32 atuId = 1;
+}
+
+message DrrpRequestOptions {
+    optional int32 timeout = 1;
+    optional int32 unavailableProcessCode = 2;
+}
+
+message GetPublicServiceAddressRequest {
+    string resourceId = 1;
+    optional string userIdentifier = 2;
+}
+
+message GetPublicServiceAddressResponse {
+    optional string fullName = 1;
+    repeated GetPublicServiceAddressResponseAddressEntry address = 2;
+    optional string communityCode = 3;
+}
+
+message GetPublicServiceAddressResponseAddressEntry {
+    string key = 1;
+    optional PublicServiceAddressItem value = 2;
+}
+
+message PublicServiceAddressItem {
+    optional string id = 1;
+    string value = 2;
+    optional string rawValue = 3;
+    optional string koatuu = 4;
+    optional string codifierCode = 5;
+    optional string category = 6;
+    optional string categoryUkr = 7;
+    optional string categoryUkrShort = 8;
+    optional int32 atuId = 9;
+    optional string sevdeirId = 10;
+}
